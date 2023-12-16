@@ -1,0 +1,35 @@
+Es una herramienta Open Source dsarrollada por Red Hat y Ansible, escrita en python, powershell y ruby
+Herramienta de arquitectura de orquestacion, desde un server maestro podemos ejecutar multiples tareas a los server clientes (Manged nodes)
+Desarrollado en Python
+
+###Conceptos Basicos de Ansible
+#Control node: Server Maestro
+#Managed nodes: Servers clients
+#Inventory: Grupo de clientes q definimos en un archivo
+#Modules: unidades de codigo q ejecuta ansible, cada modulo tiene un particular uso y puede ser invocado en una tarea o varios modulos en un playbook
+#Tasks: Son las unidades de accion en ansible en la q se puede ejecutar una tarea con un comando ad-hoc
+#Playbooks: Son archivos yammer o .ini q definen diversas tareas a uno o varios nodos administrados.
+
+###Alternativas de Ansible
+#Puppet
+#SlatStack
+#Chef
+
+###Instalacion Ansible
+sudo yum install epel-release = Para instalar Extra Packages for Enterprise Linux repositorio
+sudo yum install ansible = Para instalar ansible
+ansible --version = para comprobar la version de ansible
+
+###Configurar archivo ansible.cfg
+vim /etc/ansible/ansible.cfg = Para entrar al rchivo de configuracion de ansible
+[defaults]
+
+#some basic default values
+
+inventory	= /etc/sysadmin/inventory
+
+#CONFIGURACION DE ARCHIVO INVENTARIO PARA DEFINIR LOS MANAGED NODE
+Crear el archivo inventario
+Otorgar los permisos correctos a nuestro servicio
+Definir nuestros primeros grupos de hsots o un simple host
+Opciones que tenemos para definir un grupo o host
