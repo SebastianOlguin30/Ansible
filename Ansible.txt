@@ -28,12 +28,37 @@ vim /etc/ansible/ansible.cfg = Para entrar al rchivo de configuracion de ansible
 
 inventory	= /etc/sysadmin/inventory
 
-Se deben configurar el usuario y grupo para el nodo-control
-se debe configurar visudo para agregar el grupo del nodo control
+-------------------------------------
 
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=False
+
+
+#Se deben configurar el usuario y grupo para el nodo-control
+
+sudo groupadd sysadmin
+sudo useradd sysadm
+sudo usermod -g sysadmin
+
+#se debe configurar visudo para agregar el grupo del nodo control
+
+sudo visudo
 
 #CONFIGURACION DE ARCHIVO INVENTARIO PARA DEFINIR LOS MANAGED NODE
 Crear el archivo inventario
 Otorgar los permisos correctos a nuestro servicio
 Definir nuestros primeros grupos de hsots o un simple host
 Opciones que tenemos para definir un grupo o host
+
+sudo vim /etc/hosts
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.56.101  nodo-control
+192.168.56.102  nodo-administrado-deb
+192.168.56.103  nodo-administrado-ub
+
+
