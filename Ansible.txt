@@ -46,12 +46,67 @@ sudo usermod -g sysadmin
 #se debe configurar visudo para agregar el grupo del nodo control
 
 sudo visudo
+-------------------------**************----------------------------------
+## Allow root to run any commands anywhere
+root    ALL=(ALL)       ALL
 
-#CONFIGURACION DE ARCHIVO INVENTARIO PARA DEFINIR LOS MANAGED NODE
-Crear el archivo inventario
-Otorgar los permisos correctos a nuestro servicio
-Definir nuestros primeros grupos de hsots o un simple host
+## Allows members of the 'sys' group to run networking, software,
+## service management apps and more.
+# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS
+
+## Allows people in group wheel to run all commands
+%wheel  ALL=(ALL)       ALL
+%sysadmin        ALL=(ALL)       NOPASSWD: ALL
+
+## Same thing without a password
+# %wheel        ALL=(ALL)       NOPASSWD: ALL
+-------------------------***************-----------------------------------
+
+#sudo visudo en los nodos administrados
+-------------------------****************-----------------------------------
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+%sysadmin   ALL=(ALL)   NOPASSWD:ALL
+-------------------------****************-----------------------------------
+
+###CONFIGURACION DE ARCHIVO INVENTARIO PARA DEFINIR LOS MANAGED NODE
+
+#Crear el archivo inventario
+sudo touch inventory
+
+#Otorgar los permisos correctos a nuestro servicio
+chmod 644 inventory
+
+#Crear la key
+ssh-keygen
+
+#Nos cambiamos al nodo administrado para agregar usuario y grupo
+ssh -l sebastian@192.168.56.103
+
+#Creamos grupo y usuario
+sudo groupadd sysadmin
+sudo useradd sysadm
+sudo usermod sysadm -g sysadmin
+
+#Volvemos al nodo administrador y copiamos la llave
+ssh-copy-id 192.168.56.103
+
+#Copiamos el id en el mismo nodo controlador
+ssh-copy-id 192.168.56.101
+
+#probamos la conexion con 
+ssh 192.168.56.103
+
+Definir nuestros primeros grupos de hosts o un simple host
 Opciones que tenemos para definir un grupo o host
+
+#Crear archivo inventory
+sudo tocuh inventory
+chmod 664
+chgrp sysadmin inventory
 
 sudo vim /etc/hosts
 
@@ -60,5 +115,12 @@ sudo vim /etc/hosts
 192.168.56.101  nodo-control
 192.168.56.102  nodo-administrado-deb
 192.168.56.103  nodo-administrado-ub
+
+Esta configuracion debe estar en /etc/hosts de nodo control y de los nodos administrados.
+
+#configurar archivo inventory
+sudo vim inventory
+dentro del archivo para definir grupos usamos corchetes []
+
 
 
